@@ -96,6 +96,7 @@ class TreeExplainer(Explainer):
         feature_perturbation="auto",
         feature_names=None,
         approximate=DEPRECATED_APPROX,
+        masker=None,
         # FIXME: The `link` and `linearize_link` arguments are ignored. GH #3513
         link=None,
         linearize_link=None,
@@ -189,7 +190,8 @@ class TreeExplainer(Explainer):
         elif isinstance(data, pd.DataFrame):
             self.data_feature_names = list(data.columns)
 
-        masker = data
+        if not masker:
+            masker = data
         super().__init__(model, masker, feature_names=feature_names)
 
         if type(self.masker) is maskers.Independent:
